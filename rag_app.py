@@ -24,11 +24,34 @@ def health_check():
 @app.get("/test-gemini")
 def test_gemini():
     try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents="Explain what an LLM is and how it works!"
+        outline_prompt = (
+            "Create a 3-bullet-point outline explaining why virtual environments are important in Python"
+            "Provide only the bullet points nothing else"
         )
-        return {"response": response.text}
 
+        print("Requesting outline from Gemini...")
+        outline_response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=outline_prompt
+        )
+        
+        outline_text = outline_response.text
+        print(f"Outline captured:\n{outline_text}")
+
+        expansion_prompt = (
+            f"Here is a 3 bullet point outline:\n"
+            f"{outline_text}\n"
+            f"Now use this outline by writing a single cohesive paragraph that explains these points to a newbie developer"
+        )
+
+        final_response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=expansion_prompt
+        )
+
+        return {
+            "status": "success",
+            "final_output": final_response.text
+        }
     except Exception as e:
         raise ValueError(f"Gemini API Call Failed: {str(e)}")
