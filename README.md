@@ -1,6 +1,6 @@
-# RAG Project
+# Learning Gen AI
 
-This repository contains my Retrieval-Augmented Generation (RAG) project for the Fusion Cyber - GenAI Secure Coding course.
+This repository contains my learning project for the Fusion Cyber - GenAI Secure Coding course.
 
 This project will be built incrementally each week.
 
